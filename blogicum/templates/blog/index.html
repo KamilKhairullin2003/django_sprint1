@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
 {% block title %}
-  Лента записей по категории: "{{ category }}"
+  Лента записей
 {% endblock %}
 
 {% block content %}
-  <h1>Лента записей по категории "{{ category }}"</h1>
+  <h1>Лента записей</h1>
   <hr>
 
   {% if posts %}
@@ -21,13 +21,13 @@
                   {% endif %}
               </ul>
               <p>
-                  {{ post.text|truncatewords:10 }} ...
+                  {{ post.text|linebreaks|truncatewords:10 }}
               </p>
               <a href="{% url 'blog:post_detail' post.id %}">Читать полный текст</a>
           </article>
           <hr>
       {% endfor %}
   {% else %}
-      <p>Нет публикаций в этой категории.</p>
+      <p>Нет публикаций</p>
   {% endif %}
 {% endblock %}

@@ -1,9 +1,17 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.http import Http404
+from typing import List, TypedDict, Dict
 
-# Create your views here.
+
+class PostDict(TypedDict):
+    id: int
+    location: str
+    date: str
+    category: str
+    text: str
 
 
-posts = [
+posts: List[PostDict] = [
     {
         'id': 0,
         'location': 'Остров отчаянья',
@@ -47,6 +55,9 @@ posts = [
 ]
 
 
+posts_dict: Dict[int, PostDict] = {post['id']: post for post in posts}
+
+
 def index(request):
     template_name = 'blog/index.html'
     context = {
@@ -55,10 +66,13 @@ def index(request):
     return render(request, template_name, context)
 
 
-def post_detail(request, id):
+def post_detail(request, post_id):
+    post = posts_dict.get(post_id)
+    if post is None:
+        raise Http404    
     template_name = 'blog/detail.html'
     context = {
-        'post': posts[id],
+        'post': post,
     }
     return render(request, template_name, context)
 
