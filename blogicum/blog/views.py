@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.http import Http404
 from typing import List, TypedDict, Dict
 
@@ -69,7 +69,7 @@ def index(request):
 def post_detail(request, post_id):
     post = posts_dict.get(post_id)
     if post is None:
-        raise Http404    
+        raise Http404
     template_name = 'blog/detail.html'
     context = {
         'post': post,
