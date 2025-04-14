@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Лента записей по категории: "{{ category }}"
+{% endblock %}
+
+{% block content %}
+  <h1>Лента записей по категории "{{ category }}"</h1>
+  <hr>
+
+  {% if posts %}
+      {% for post in posts reversed %}
+          <article>
+              <ul>
+                  <li>Место: {{ post.location }}</li>
+                  <li>Дата: {{ post.date }}</li>
+                  {% if post.category and post.category.slug %}
+                    <li>Категория: <a href="{% url 'blog:category_posts' post.category.slug %}">{{ post.category.name }}</a></li>
+                  {% else %}
+                    <span>{{ post.category.name|default:"Без категории" }}</span>
+                  {% endif %}
+              </ul>
+              <p>
+                  {{ post.text|truncatewords:10 }} ...
+              </p>
+              <a href="{% url 'blog:post_detail' post.id %}">Читать полный текст</a>
+          </article>
+          <hr>
+      {% endfor %}
+  {% else %}
+      <p>Нет публикаций в этой категории.</p>
+  {% endif %}
+{% endblock %}
